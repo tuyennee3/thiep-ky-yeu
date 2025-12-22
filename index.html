@@ -19,15 +19,15 @@
     }
 
     body {
+      margin: 0;
       background: var(--bg);
       font-family: Poppins, Arial, sans-serif;
-      margin: 0;
       display: flex;
       justify-content: center;
-      padding: 10px;
       color: var(--text);
     }
 
+    /* ===== CARD (DESKTOP) ===== */
     .card {
       background: var(--card);
       width: 360px;
@@ -35,6 +35,7 @@
       padding: 20px;
       text-align: center;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      margin: 10px;
     }
 
     .avatar img {
@@ -45,51 +46,43 @@
       cursor: pointer;
     }
 
-    h1 { margin: 10px 0 4px; font-size: 22px; }
-    .info { font-size: 14px; opacity: 0.8; }
-    .quote { font-style: italic; margin: 15px 0; }
-    .year { font-weight: bold; margin-top: 10px; }
+    h1 {
+      margin: 10px 0 4px;
+      font-size: 22px;
+    }
 
-    /* === GALLERY DẠNG DỌC === */
+    .info {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .quote {
+      font-style: italic;
+      margin: 15px 0;
+    }
+
+    .year {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    /* ===== GALLERY DỌC ===== */
     .gallery {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      margin-top: 16px;
+      gap: 14px;
+      margin-top: 18px;
     }
 
     .gallery img {
       width: 100%;
-      height: 180px;
+      height: 200px;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 14px;
       cursor: pointer;
     }
 
-    /* Overlay */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .overlay img {
-      max-width: 90%;
-      max-height: 80%;
-      border-radius: 12px;
-    }
-
-    .caption {
-      color: #fff;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
+    /* ===== CONTROLS ===== */
     .controls {
       position: fixed;
       top: 10px;
@@ -105,32 +98,75 @@
       border: none;
       padding: 6px 10px;
       border-radius: 8px;
-      cursor: pointer;
       font-size: 13px;
+      cursor: pointer;
     }
 
+    /* ===== FULLSCREEN OVERLAY ===== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .overlay img {
+      max-width: 92%;
+      max-height: 80%;
+      border-radius: 12px;
+    }
+
+    .caption {
+      color: #fff;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    /* ===== MOBILE FEED MODE ===== */
     @media (max-width: 480px) {
-      .card { width: 100%; }
-      .avatar img { width: 120px; height: 160px; }
-      .gallery img { height: 200px; }
+      body {
+        justify-content: flex-start;
+      }
+
+      .card {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 16px;
+      }
+
+      .gallery img {
+        height: 260px;
+        border-radius: 16px;
+      }
     }
   </style>
 </head>
 
 <body>
 
+<!-- BUTTONS -->
 <div class="controls">
   <button class="btn" onclick="toggleDark()">🌙</button>
   <button class="btn" onclick="toggleMusic()">🎵</button>
 </div>
 
+<!-- CARD -->
 <div class="card">
   <div class="avatar">
     <img src="avatar.jpg" onclick="openImg(0)">
   </div>
 
   <h1>DƯƠNG VĂN TUYÊN</h1>
-  <div class="info">Lớp: …… | Khóa: ……<br>Trường: ……</div>
+  <div class="info">
+    Lớp: …… | Khóa: ……<br>
+    Trường: ……
+  </div>
 
   <div class="quote">
     “Thanh xuân không phải là khoảng thời gian,<br>
@@ -147,73 +183,81 @@
   </div>
 </div>
 
+<!-- OVERLAY -->
 <div class="overlay" id="overlay" onclick="closeImg()">
   <img id="overlayImg">
   <div class="caption" id="caption"></div>
 </div>
 
+<!-- MUSIC -->
 <audio id="music" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <script>
   const images = [
-    {src:"avatar.jpg", cap:"Ảnh kỷ yếu chính"},
-    {src:"img1.jpg", cap:"Kỷ niệm 1"},
-    {src:"img2.jpg", cap:"Kỷ niệm 2"},
-    {src:"img3.jpg", cap:"Kỷ niệm 3"},
-    {src:"img4.jpg", cap:"Kỷ niệm 4"}
+    { src: "avatar.jpg", cap: "Ảnh kỷ yếu chính" },
+    { src: "img1.jpg", cap: "Kỷ niệm 1" },
+    { src: "img2.jpg", cap: "Kỷ niệm 2" },
+    { src: "img3.jpg", cap: "Kỷ niệm 3" },
+    { src: "img4.jpg", cap: "Kỷ niệm 4" }
   ];
 
   let index = 0;
   let startX = 0;
   let musicStarted = false;
 
-  function openImg(i){
+  function openImg(i) {
     index = i;
-    overlay.style.display="flex";
+    overlay.style.display = "flex";
     showImg();
   }
 
-  function showImg(){
+  function showImg() {
     overlayImg.src = images[index].src;
     caption.innerText = images[index].cap;
   }
 
-  function closeImg(){
-    overlay.style.display="none";
+  function closeImg() {
+    overlay.style.display = "none";
   }
 
-  overlay.addEventListener("touchstart", e=>{
+  overlay.addEventListener("touchstart", e => {
     startX = e.touches[0].clientX;
   });
 
-  overlay.addEventListener("touchend", e=>{
+  overlay.addEventListener("touchend", e => {
     let endX = e.changedTouches[0].clientX;
-    if(startX - endX > 50 && index < images.length-1){ index++; showImg(); }
-    if(endX - startX > 50 && index > 0){ index--; showImg(); }
+    if (startX - endX > 50 && index < images.length - 1) {
+      index++;
+      showImg();
+    }
+    if (endX - startX > 50 && index > 0) {
+      index--;
+      showImg();
+    }
   });
 
-  function toggleDark(){
+  function toggleDark() {
     document.body.classList.toggle("dark");
   }
 
-  function toggleMusic(){
+  function toggleMusic() {
     const m = document.getElementById("music");
     m.paused ? m.play() : m.pause();
     musicStarted = true;
   }
 
-  function playMusicOnce(){
-    if(musicStarted) return;
+  function playMusicOnce() {
+    if (musicStarted) return;
     document.getElementById("music").play();
     musicStarted = true;
   }
 
-  window.onload = ()=>{
+  window.onload = () => {
     openImg(0);
     document.body.addEventListener("click", playMusicOnce, { once: true });
-  }
+  };
 </script>
 
 </body>
