@@ -50,18 +50,19 @@
     .quote { font-style: italic; margin: 15px 0; }
     .year { font-weight: bold; margin-top: 10px; }
 
+    /* === GALLERY DẠNG DỌC === */
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 8px;
-      margin-top: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 16px;
     }
 
     .gallery img {
       width: 100%;
-      height: 90px;
+      height: 180px;
       object-fit: cover;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
     }
 
@@ -111,7 +112,7 @@
     @media (max-width: 480px) {
       .card { width: 100%; }
       .avatar img { width: 120px; height: 160px; }
-      .gallery img { height: 80px; }
+      .gallery img { height: 200px; }
     }
   </style>
 </head>
@@ -166,6 +167,7 @@
 
   let index = 0;
   let startX = 0;
+  let musicStarted = false;
 
   function openImg(i){
     index = i;
@@ -199,10 +201,19 @@
   function toggleMusic(){
     const m = document.getElementById("music");
     m.paused ? m.play() : m.pause();
+    musicStarted = true;
   }
 
-  // mở fullscreen ảnh chính khi vào web
-  window.onload = ()=> openImg(0);
+  function playMusicOnce(){
+    if(musicStarted) return;
+    document.getElementById("music").play();
+    musicStarted = true;
+  }
+
+  window.onload = ()=>{
+    openImg(0);
+    document.body.addEventListener("click", playMusicOnce, { once: true });
+  }
 </script>
 
 </body>
