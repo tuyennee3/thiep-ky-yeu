@@ -1,71 +1,58 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Thiệp Kỷ Yếu Cá Nhân</title>
-
-  <!-- BẮT BUỘC cho mobile -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    :root {
+      --bg: #f4f4f4;
+      --card: #ffffff;
+      --text: #000;
+    }
+
+    body.dark {
+      --bg: #121212;
+      --card: #1e1e1e;
+      --text: #fff;
+    }
+
     body {
-      background: #f4f4f4;
+      background: var(--bg);
       font-family: Poppins, Arial, sans-serif;
+      margin: 0;
       display: flex;
       justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
+      padding: 10px;
+      color: var(--text);
     }
 
     .card {
+      background: var(--card);
       width: 360px;
-      background: #ffffff;
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      padding: 24px;
+      padding: 20px;
       text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
 
-    /* Ảnh thiệp chính */
     .avatar img {
       width: 140px;
       height: 180px;
       object-fit: cover;
       border-radius: 12px;
-      margin-bottom: 16px;
       cursor: pointer;
     }
 
-    h1 {
-      margin: 10px 0 4px;
-      font-size: 22px;
-      letter-spacing: 1px;
-    }
+    h1 { margin: 10px 0 4px; font-size: 22px; }
+    .info { font-size: 14px; opacity: 0.8; }
+    .quote { font-style: italic; margin: 15px 0; }
+    .year { font-weight: bold; margin-top: 10px; }
 
-    .info {
-      font-size: 14px;
-      color: #555;
-      margin-bottom: 16px;
-    }
-
-    .quote {
-      font-style: italic;
-      font-size: 15px;
-      color: #333;
-      margin: 20px 0;
-    }
-
-    .year {
-      margin: 20px 0 10px;
-      font-weight: bold;
-      color: #000;
-    }
-
-    /* 4 ảnh phía dưới */
     .gallery {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2,1fr);
       gap: 8px;
       margin-top: 12px;
     }
@@ -76,22 +63,15 @@
       object-fit: cover;
       border-radius: 8px;
       cursor: pointer;
-      transition: transform 0.2s;
     }
 
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
-
-    /* Overlay phóng to */
+    /* Overlay */
     .overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.85);
+      inset: 0;
+      background: rgba(0,0,0,0.9);
       display: none;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 999;
@@ -99,103 +79,131 @@
 
     .overlay img {
       max-width: 90%;
-      max-height: 90%;
+      max-height: 80%;
       border-radius: 12px;
-      animation: zoomIn 0.3s ease;
     }
 
-    @keyframes zoomIn {
-      from {
-        transform: scale(0.7);
-        opacity: 0;
-      }
-      to {
-        transform: scale(1);
-        opacity: 1;
-      }
+    .caption {
+      color: #fff;
+      margin-top: 10px;
+      font-size: 14px;
     }
 
-    /* ===== MOBILE RESPONSIVE ===== */
+    .controls {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      gap: 8px;
+      z-index: 1000;
+    }
+
+    .btn {
+      background: #000;
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
     @media (max-width: 480px) {
-      body {
-        padding: 10px;
-        align-items: flex-start;
-      }
-
-      .card {
-        width: 100%;
-        max-width: 360px;
-        padding: 16px;
-      }
-
-      .avatar img {
-        width: 120px;
-        height: 160px;
-      }
-
-      h1 {
-        font-size: 20px;
-      }
-
-      .quote {
-        font-size: 14px;
-      }
-
-      .gallery img {
-        height: 80px;
-      }
+      .card { width: 100%; }
+      .avatar img { width: 120px; height: 160px; }
+      .gallery img { height: 80px; }
     }
   </style>
 </head>
 
 <body>
 
-  <div class="card">
+<div class="controls">
+  <button class="btn" onclick="toggleDark()">🌙</button>
+  <button class="btn" onclick="toggleMusic()">🎵</button>
+</div>
 
-    <!-- Ảnh thiệp chính -->
-    <div class="avatar">
-      <img src="avatar.jpg" onclick="openImg(this.src)">
-    </div>
-
-    <h1>DƯƠNG VĂN TUYÊN</h1>
-
-    <div class="info">
-      Lớp: …… | Khóa: …… <br/>
-      Trường: ……
-    </div>
-
-    <div class="quote">
-      “Thanh xuân không phải là khoảng thời gian,<br/>
-      mà là nơi ta đã từng cố gắng hết mình.”
-    </div>
-
-    <div class="year">KỶ YẾU 2025</div>
-
-    <!-- 4 ảnh dưới -->
-    <div class="gallery">
-      <img src="img1.jpg" onclick="openImg(this.src)">
-      <img src="img2.jpg" onclick="openImg(this.src)">
-      <img src="img3.jpg" onclick="openImg(this.src)">
-      <img src="img4.jpg" onclick="openImg(this.src)">
-    </div>
-
+<div class="card">
+  <div class="avatar">
+    <img src="avatar.jpg" onclick="openImg(0)">
   </div>
 
-  <!-- Overlay -->
-  <div class="overlay" id="overlay" onclick="closeImg()">
-    <img id="overlayImg">
+  <h1>DƯƠNG VĂN TUYÊN</h1>
+  <div class="info">Lớp: …… | Khóa: ……<br>Trường: ……</div>
+
+  <div class="quote">
+    “Thanh xuân không phải là khoảng thời gian,<br>
+    mà là nơi ta đã từng cố gắng hết mình.”
   </div>
 
-  <script>
-    function openImg(src) {
-      document.getElementById("overlayImg").src = src;
-      document.getElementById("overlay").style.display = "flex";
-    }
+  <div class="year">KỶ YẾU 2025</div>
 
-    function closeImg() {
-      document.getElementById("overlay").style.display = "none";
-    }
-  </script>
+  <div class="gallery">
+    <img src="img1.jpg" onclick="openImg(1)">
+    <img src="img2.jpg" onclick="openImg(2)">
+    <img src="img3.jpg" onclick="openImg(3)">
+    <img src="img4.jpg" onclick="openImg(4)">
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeImg()">
+  <img id="overlayImg">
+  <div class="caption" id="caption"></div>
+</div>
+
+<audio id="music" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const images = [
+    {src:"avatar.jpg", cap:"Ảnh kỷ yếu chính"},
+    {src:"img1.jpg", cap:"Kỷ niệm 1"},
+    {src:"img2.jpg", cap:"Kỷ niệm 2"},
+    {src:"img3.jpg", cap:"Kỷ niệm 3"},
+    {src:"img4.jpg", cap:"Kỷ niệm 4"}
+  ];
+
+  let index = 0;
+  let startX = 0;
+
+  function openImg(i){
+    index = i;
+    overlay.style.display="flex";
+    showImg();
+  }
+
+  function showImg(){
+    overlayImg.src = images[index].src;
+    caption.innerText = images[index].cap;
+  }
+
+  function closeImg(){
+    overlay.style.display="none";
+  }
+
+  overlay.addEventListener("touchstart", e=>{
+    startX = e.touches[0].clientX;
+  });
+
+  overlay.addEventListener("touchend", e=>{
+    let endX = e.changedTouches[0].clientX;
+    if(startX - endX > 50 && index < images.length-1){ index++; showImg(); }
+    if(endX - startX > 50 && index > 0){ index--; showImg(); }
+  });
+
+  function toggleDark(){
+    document.body.classList.toggle("dark");
+  }
+
+  function toggleMusic(){
+    const m = document.getElementById("music");
+    m.paused ? m.play() : m.pause();
+  }
+
+  // mở fullscreen ảnh chính khi vào web
+  window.onload = ()=> openImg(0);
+</script>
 
 </body>
 </html>
