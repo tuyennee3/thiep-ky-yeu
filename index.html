@@ -5,182 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Thiệp mời chụp ảnh Tốt nghiệp</title>
   <style>
-    body {
-      margin:0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg,#fdfcfb 0%, #f7f7fb 100%);
-      color:#1f2937;
+    body { margin:0; font-family: Arial, sans-serif; background:#000; color:#fcd34d; }
+    .container { max-width:1000px; margin:40px auto; padding:0 20px; }
+    .section { padding:24px; border-top:1px solid #333; }
+    h1, h2 { margin:0; }
+    img { max-width:100%; display:block; }
+    input, textarea, select {
+      width:100%; padding:10px; border-radius:8px; border:none; font:inherit; margin-top:6px;
+      background:#111; color:#fcd34d;
     }
-    .container {max-width:1000px; margin:40px auto; padding:0 20px;}
-    .card {background:#fff; border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.1); overflow:hidden;}
-
-    /* HERO */
-    .hero {background:linear-gradient(135deg,#e0f2fe 0%, #fef3c7 50%, #ffe4e6 100%); padding:24px; border-bottom:1px solid #e5e7eb;}
-    .hero-grid {display:grid; grid-template-columns:1fr 360px; gap:20px; align-items:center;}
-    @media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
-    .hero-text h1 {margin:0 0 10px; font-size:28px;}
-    .hero-text p {margin:6px 0;}
-    .badge {display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px dashed #e5e7eb; padding:8px 12px; border-radius:999px; font-weight:600; margin-top:10px;}
-
-    .invite-photo {position:relative; background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.06); overflow:hidden;}
-    .invite-photo img {width:100%; display:block; object-fit:cover; aspect-ratio:3/4;}
-    .photo-overlay {position:absolute; top:10px; right:10px; display:flex; gap:8px;}
-    .chip {display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; font-size:18px; box-shadow:0 4px 10px rgba(0,0,0,.08);}
-    .chip.cap {background:#111827; color:#fff;}
-    .chip.diploma {background:#f59e0b; color:#111827;}
-    .upload-btn {position:absolute; left:10px; bottom:10px; background:#3b82f6; color:#fff; border-radius:10px; padding:8px 12px; font-weight:600; cursor:pointer;}
-
-    /* SECTIONS */
-    .section {border-top:1px solid #e5e7eb; padding:20px;}
-    .section-header {font-weight:bold; margin-bottom:12px;}
-    .gallery {display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px;}
-    .gallery img {width:100%; border-radius:10px; object-fit:cover; aspect-ratio:4/3;}
-
-    /* FORM */
-    .form {display:grid; gap:12px; margin-top:12px;}
-    label {font-weight:bold;}
-    input, textarea, select {width:100%; padding:10px; border:1px solid #ccc; border-radius:8px; font:inherit;}
-    textarea {min-height:80px;}
-    .btn {padding:10px 14px; border:none; border-radius:8px; cursor:pointer; font-weight:bold;}
-    .btn-primary {background:#3b82f6; color:#fff;}
-    .preview {margin-top:12px; padding:10px; background:#f3f4f6; border-radius:8px;}
-    .success {display:none; margin-top:12px; padding:10px; background:#d1fae5; color:#065f46; border-radius:8px; font-weight:bold;}
+    textarea { min-height:100px; }
+    label { font-weight:bold; }
+    button { padding:10px 16px; border:none; border-radius:8px; font-weight:bold; cursor:pointer; }
+    .btn-primary { background:#fcd34d; color:#000; }
+    .btn-secondary { background:#333; color:#fcd34d; }
+    .calendar { display:inline-block; border:1px solid #444; border-radius:12px; padding:12px; margin:16px 0; }
+    .calendar table { border-collapse:collapse; font-size:14px; color:#fcd34d; }
+    .calendar td { padding:4px 8px; text-align:center; }
+    .calendar thead td { color:#888; font-weight:bold; }
+    .highlight { background:#fcd34d; color:#000; border-radius:6px; }
+    .gallery { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; }
+    .gallery img { border-radius:12px; object-fit:cover; background:#111; }
+    .preview { margin-top:16px; background:#1f2937; padding:12px; border-radius:8px; color:#fff; }
+    .success { margin-top:16px; background:#065f46; color:#d1fae5; padding:12px; border-radius:8px; font-weight:bold; display:none; }
+    .note { opacity:.85; font-style:italic; margin-top:10px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="card">
 
-      <!-- HERO -->
-      <div class="hero">
-        <div class="hero-grid">
-          <div class="hero-text">
-            <h1>Thiệp mời chụp ảnh Tốt nghiệp</h1>
-            <p><strong>của:</strong> Lục Thị Hậu • 12A8, THPT Liễn Sơn</p>
-            <p>“Trân trọng mời bạn đến tham dự lễ chụp tốt nghiệp của mình!”</p>
-            <div class="badge">🎓 Thông tin • Thời gian & địa điểm</div>
-          </div>
-          <div class="invite-photo">
-            <!-- Đặt file portrait.jpg cùng thư mục, hoặc chọn ảnh bằng nút bên dưới -->
-            <img id="mainPortrait" src="portrait.jpg" alt="Ảnh chân dung tốt nghiệp">
-            <div class="photo-overlay">
-              <span class="chip cap">🎓</span>
-              <span class="chip diploma">📜</span>
-            </div>
-            <label class="upload-btn">
-              Chọn ảnh từ máy
-              <input type="file" id="photoInput" accept="image/*" hidden>
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <!-- THÔNG TIN -->
-      <div class="section">
-        <div class="section-header">Thông tin thời gian và địa điểm</div>
-        <p><strong>Thời gian:</strong> Chủ Nhật, ngày 04/01/2026 • 08:00–10:30</p>
-        <p><strong>Địa điểm:</strong> Sân trường THPT Liễn Sơn</p>
-        <p><strong>Liên hệ:</strong> Hotline: 0376 801 336 • Facebook: Lục Hậu</p>
-      </div>
-
-      <!-- GALLERY -->
-      <div class="section">
-        <div class="section-header">Một số ảnh về quá trình học tập</div>
-        <div class="gallery">
-          <img src="anh1.jpg" alt="Ảnh học tập 1">
-          <img src="anh2.jpg" alt="Ảnh học tập 2">
-          <img src="anh3.jpg" alt="Ảnh học tập 3">
-          <img src="anh4.jpg" alt="Ảnh học tập 4">
-        </div>
-      </div>
-
-      <!-- FORM -->
-      <div class="section">
-        <div class="section-header">Xác nhận tham dự & lời chúc</div>
-        <form class="form" id="rsvpForm">
-          <div>
-            <label for="name">Tên của bạn là gì?</label>
-            <input id="name" type="text" placeholder="Nhập tên của bạn" />
-          </div>
-          <div>
-            <label for="wish">Nhập lời chúc của bạn</label>
-            <textarea id="wish" placeholder="Ví dụ: Chúc bạn tốt nghiệp thật rực rỡ!"></textarea>
-          </div>
-          <div>
-            <label for="attend">Bạn có tham dự không?</label>
-            <select id="attend">
-              <option value="">-- Chọn trạng thái --</option>
-              <option value="Sẽ tham dự">Sẽ tham dự</option>
-              <option value="Đang cân nhắc">Đang cân nhắc</option>
-              <option value="Không tham dự">Không tham dự</option>
-            </select>
-          </div>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
-            <button type="button" class="btn btn-primary" id="sendBtn">GỬI NGAY!</button>
-            <button type="button" class="btn" id="previewBtn">Xem trước lời chúc</button>
-          </div>
-        </form>
-        <div class="preview" id="previewBox">Lời chúc của bạn sẽ hiển thị ở đây</div>
-        <div class="success" id="successBox">Gửi lời chúc thành công! • Thank you!</div>
-      </div>
-
+    <!-- ĐOẠN 1: Thiệp mời -->
+    <div class="section" style="text-align:center;">
+      <h1 style="font-size:36px; margin-bottom:10px;">Thiệp mời chụp ảnh<br/>Tốt nghiệp</h1>
+      <h2 style="font-size:24px; margin:20px 0 10px;">của</h2>
+      <h2 style="font-size:28px; font-weight:bold;">Lục Thị Hậu</h2>
+      <p style="font-size:18px;">12A8, THPT Liễn Sơn</p>
+      <p style="font-size:20px; margin-top:30px; font-style:italic;">
+        “Trân trọng mời bạn đến tham dự lễ chụp tốt nghiệp của mình!”
+      </p>
+      <img src="portrait.jpg" alt="Ảnh tốt nghiệp" style="width:220px; border-radius:12px; margin:20px auto; box-shadow:0 8px 24px rgba(252,211,77,.25);">
+      <p class="note">Xin chào! Mỗi ngày đến trường là một ngày… ăn vặt và tạo kỷ niệm đáng yêu 💕</p>
     </div>
+
+    <!-- ĐOẠN 2: Thời gian & địa điểm -->
+    <div class="section">
+      <div style="font-weight:bold; font-size:20px; margin-bottom:16px;">Thông tin • Thời gian & địa điểm</div>
+      <p><strong>Thời gian:</strong> Chủ Nhật, ngày 04/01/2026</p>
+
+      <div class="calendar">
+        <div style="font-weight:bold; margin-bottom:8px;">Tháng 1 | 2026</div>
+        <table>
+          <thead>
+            <tr><td>T2</td><td>T3</td><td>T4</td><td>T5</td><td>T6</td><td>T7</td><td>CN</td></tr>
+          </thead>
+          <tbody>
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td class="highlight">4</td></tr>
+            <tr><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td></tr>
+            <tr><td>12</td><td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td></tr>
+            <tr><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+            <tr><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><strong>Địa chỉ:</strong> Sân trường THPT Liễn Sơn</p>
+      <a href="https://www.google.com/maps/search/THPT+Liễn+Sơn" target="_blank"
+         style="display:inline-block; background:#fcd34d; color:#000; padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:8px;">
+        XEM CHỈ ĐƯỜNG
+      </a>
+
+      <div style="margin-top:16px;">
+        <p><strong>Hotline:</strong> 0376801336</p>
+        <p><strong>Facebook:</strong> Lục Hậu</p>
+      </div>
+    </div>
+
+    <!-- ĐOẠN 3: Ảnh học tập -->
+    <div class="section">
+      <div style="font-weight:bold; font-size:20px; margin-bottom:16px;">Một số ảnh về Quá trình học tập</div>
+      <div class="gallery">
+        <img src="anh1.jpg" alt="Ảnh học tập 1">
+        <img src="anh2.jpg" alt="Ảnh học tập 2">
+        <img src="anh3.jpg" alt="Ảnh học tập 3">
+        <img src="anh4.jpg" alt="Ảnh học tập 4">
+      </div>
+    </div>
+
+    <!-- ĐOẠN 4: Form xác nhận -->
+    <div class="section">
+      <div style="font-weight:bold; font-size:20px; margin-bottom:16px;">Xác nhận tham dự & lời chúc</div>
+      <form id="rsvpForm" style="display:grid; gap:12px;">
+        <div>
+          <label for="name">Tên của bạn là gì?</label>
+          <input id="name" type="text" placeholder="Nhập tên của bạn">
+        </div>
+        <div>
+          <label for="wish">Nhập lời chúc của bạn</label>
+          <textarea id="wish" placeholder="Ví dụ: Chúc bạn tốt nghiệp thật rực rỡ!"></textarea>
+        </div>
+        <div>
+          <label for="attend">Bạn có tham dự không?</label>
+          <select id="attend">
+            <option value="">-- Chọn trạng thái --</option>
+            <option value="Sẽ tham dự">Sẽ tham dự</option>
+            <option value="Đang cân nhắc">Đang cân nhắc</option>
+            <option value="Không tham dự">Không tham dự</option>
+          </select>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button type="button" class="btn-primary" id="sendBtn">GỬI NGAY!</button>
+          <button type="button" class="btn-secondary" id="previewBtn">Xem trước lời chúc của bạn</button>
+        </div>
+      </form>
+      <div id="previewBox" class="preview">Lời chúc của bạn sẽ hiển thị ở đây</div>
+      <div id="successBox" class="success">Gửi lời chúc thành công!<br/>Thank you!</div>
+    </div>
+
   </div>
 
   <script>
-    // Upload ảnh chân dung (không dùng optional chaining để tránh lỗi trình duyệt cũ)
-    (function(){
-      var photoInput = document.getElementById('photoInput');
-      var mainPortrait = document.getElementById('mainPortrait');
-      if(photoInput && mainPortrait){
-        photoInput.addEventListener('change', function(e){
-          var files = e.target.files;
-          if(!files || files.length === 0) return;
-          var file = files[0];
-          var url = URL.createObjectURL(file);
-          mainPortrait.src = url;
-        });
-      }
-    })();
+    // Lấy phần tử
+    var nameEl = document.getElementById('name');
+    var wishEl = document.getElementById('wish');
+    var attendEl = document.getElementById('attend');
+    var previewBox = document.getElementById('previewBox');
+    var successBox = document.getElementById('successBox');
+    var previewBtn = document.getElementById('previewBtn');
+    var sendBtn = document.getElementById('sendBtn');
 
-    // Form preview & gửi
-    (function(){
-      var nameEl = document.getElementById('name');
-      var wishEl = document.getElementById('wish');
-      var attendEl = document.getElementById('attend');
-      var previewBox = document.getElementById('previewBox');
-      var successBox = document.getElementById('successBox');
-      var previewBtn = document.getElementById('previewBtn');
-      var sendBtn = document.getElementById('sendBtn');
+    // Xem trước lời chúc
+    if (previewBtn) {
+      previewBtn.addEventListener('click', function () {
+        var name = (nameEl && nameEl.value ? nameEl.value.trim() : "") || "Ẩn danh";
+        var wish = (wishEl && wishEl.value ? wishEl.value.trim() : "") || "(Chưa có lời chúc)";
+        var attend = (attendEl && attendEl.value ? attendEl.value : "") || "(Chưa xác nhận)";
+        if (previewBox) {
+          previewBox.innerHTML = "<strong>" + name + "</strong> • <em>" + attend + "</em><br/>“" + wish + "”";
+        }
+        if (successBox) successBox.style.display = "none";
+      });
+    }
 
-      if(previewBtn){
-        previewBtn.addEventListener('click', function(){
-          var n = (nameEl && nameEl.value) ? nameEl.value.trim() : "";
-          var w = (wishEl && wishEl.value) ? wishEl.value.trim() : "";
-          var a = (attendEl && attendEl.value) ? attendEl.value : "";
-
-          if(!n) n = "Ẩn danh";
-          if(!w) w = "(Chưa có lời chúc)";
-          if(!a) a = "(Chưa xác nhận)";
-
-          if(previewBox){
-            previewBox.innerHTML = "<strong>" + n + "</strong> • <em>" + a + "</em><br/>“" + w + "”";
-          }
-          if(successBox){
-            successBox.style.display = "none";
-          }
-        });
-      }
-
-      if(sendBtn){
-        sendBtn.addEventListener('click', function(){
-          if(successBox){
-            successBox.style.display = "block";
-            successBox.textContent = "Gửi lời chúc thành công! • Thank you!";
-          }
-        });
-      }
-    })();
+    // Gửi (hiển thị thông báo thành công)
+    if (sendBtn) {
+      sendBtn.addEventListener('click', function () {
+        if (successBox) {
+          successBox.style.display = "block";
+          successBox.textContent = "Gửi lời chúc thành công! • Thank you!";
+        }
+      });
+    }
   </script>
 </body>
 </html>
