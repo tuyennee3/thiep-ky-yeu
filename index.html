@@ -1,264 +1,186 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Thiệp Kỷ Yếu Cá Nhân</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thiệp mời chụp ảnh Tốt nghiệp</title>
   <style>
-    :root {
-      --bg: #f4f4f4;
-      --card: #ffffff;
-      --text: #000;
-    }
-
-    body.dark {
-      --bg: #121212;
-      --card: #1e1e1e;
-      --text: #fff;
-    }
-
     body {
-      margin: 0;
-      background: var(--bg);
-      font-family: Poppins, Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      color: var(--text);
+      margin:0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg,#fdfcfb 0%, #f7f7fb 100%);
+      color:#1f2937;
     }
+    .container {max-width:1000px; margin:40px auto; padding:0 20px;}
+    .card {background:#fff; border-radius:16px; box-shadow:0 10px 24px rgba(0,0,0,.1); overflow:hidden;}
 
-    /* ===== CARD (DESKTOP) ===== */
-    .card {
-      background: var(--card);
-      width: 360px;
-      border-radius: 16px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      margin: 10px;
-    }
+    /* HERO */
+    .hero {background:linear-gradient(135deg,#e0f2fe 0%, #fef3c7 50%, #ffe4e6 100%); padding:24px; border-bottom:1px solid #e5e7eb;}
+    .hero-grid {display:grid; grid-template-columns:1fr 360px; gap:20px; align-items:center;}
+    @media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+    .hero-text h1 {margin:0 0 10px; font-size:28px;}
+    .hero-text p {margin:6px 0;}
+    .badge {display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px dashed #e5e7eb; padding:8px 12px; border-radius:999px; font-weight:600; margin-top:10px;}
 
-    .avatar img {
-      width: 140px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 12px;
-      cursor: pointer;
-    }
+    .invite-photo {position:relative; background:#fff; border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 8px 20px rgba(0,0,0,.06); overflow:hidden;}
+    .invite-photo img {width:100%; display:block; object-fit:cover; aspect-ratio:3/4;}
+    .photo-overlay {position:absolute; top:10px; right:10px; display:flex; gap:8px;}
+    .chip {display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; font-size:18px; box-shadow:0 4px 10px rgba(0,0,0,.08);}
+    .chip.cap {background:#111827; color:#fff;}
+    .chip.diploma {background:#f59e0b; color:#111827;}
+    .upload-btn {position:absolute; left:10px; bottom:10px; background:#3b82f6; color:#fff; border-radius:10px; padding:8px 12px; font-weight:600; cursor:pointer;}
 
-    h1 {
-      margin: 10px 0 4px;
-      font-size: 22px;
-    }
+    /* SECTIONS */
+    .section {border-top:1px solid #e5e7eb; padding:20px;}
+    .section-header {font-weight:bold; margin-bottom:12px;}
+    .gallery {display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px;}
+    .gallery img {width:100%; border-radius:10px; object-fit:cover; aspect-ratio:4/3;}
 
-    .info {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-
-    .quote {
-      font-style: italic;
-      margin: 15px 0;
-    }
-
-    .year {
-      font-weight: bold;
-      margin-top: 10px;
-    }
-
-    /* ===== GALLERY DỌC ===== */
-    .gallery {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .gallery img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 14px;
-      cursor: pointer;
-    }
-
-    /* ===== CONTROLS ===== */
-    .controls {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 8px;
-      z-index: 1000;
-    }
-
-    .btn {
-      background: #000;
-      color: #fff;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    /* ===== FULLSCREEN OVERLAY ===== */
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.92);
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .overlay img {
-      max-width: 92%;
-      max-height: 80%;
-      border-radius: 12px;
-    }
-
-    .caption {
-      color: #fff;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
-    /* ===== MOBILE FEED MODE ===== */
-    @media (max-width: 480px) {
-      body {
-        justify-content: flex-start;
-      }
-
-      .card {
-        width: 100%;
-        margin: 0;
-        border-radius: 0;
-        box-shadow: none;
-        padding: 16px;
-      }
-
-      .gallery img {
-        height: 260px;
-        border-radius: 16px;
-      }
-    }
+    /* FORM */
+    .form {display:grid; gap:12px; margin-top:12px;}
+    label {font-weight:bold;}
+    input, textarea, select {width:100%; padding:10px; border:1px solid #ccc; border-radius:8px; font:inherit;}
+    textarea {min-height:80px;}
+    .btn {padding:10px 14px; border:none; border-radius:8px; cursor:pointer; font-weight:bold;}
+    .btn-primary {background:#3b82f6; color:#fff;}
+    .preview {margin-top:12px; padding:10px; background:#f3f4f6; border-radius:8px;}
+    .success {display:none; margin-top:12px; padding:10px; background:#d1fae5; color:#065f46; border-radius:8px; font-weight:bold;}
   </style>
 </head>
-
 <body>
+  <div class="container">
+    <div class="card">
 
-<!-- BUTTONS -->
-<div class="controls">
-  <button class="btn" onclick="toggleDark()">🌙</button>
-  <button class="btn" onclick="toggleMusic()">🎵</button>
-</div>
+      <!-- HERO -->
+      <div class="hero">
+        <div class="hero-grid">
+          <div class="hero-text">
+            <h1>Thiệp mời chụp ảnh Tốt nghiệp</h1>
+            <p><strong>của:</strong> Lục Thị Hậu • 12A8, THPT Liễn Sơn</p>
+            <p>“Trân trọng mời bạn đến tham dự lễ chụp tốt nghiệp của mình!”</p>
+            <div class="badge">🎓 Thông tin • Thời gian & địa điểm</div>
+          </div>
+          <div class="invite-photo">
+            <!-- Đặt file portrait.jpg cùng thư mục, hoặc chọn ảnh bằng nút bên dưới -->
+            <img id="mainPortrait" src="portrait.jpg" alt="Ảnh chân dung tốt nghiệp">
+            <div class="photo-overlay">
+              <span class="chip cap">🎓</span>
+              <span class="chip diploma">📜</span>
+            </div>
+            <label class="upload-btn">
+              Chọn ảnh từ máy
+              <input type="file" id="photoInput" accept="image/*" hidden>
+            </label>
+          </div>
+        </div>
+      </div>
 
-<!-- CARD -->
-<div class="card">
-  <div class="avatar">
-    <img src="avatar.jpg" onclick="openImg(0)">
+      <!-- THÔNG TIN -->
+      <div class="section">
+        <div class="section-header">Thông tin thời gian và địa điểm</div>
+        <p><strong>Thời gian:</strong> Chủ Nhật, ngày 04/01/2026 • 08:00–10:30</p>
+        <p><strong>Địa điểm:</strong> Sân trường THPT Liễn Sơn</p>
+        <p><strong>Liên hệ:</strong> Hotline: 0376 801 336 • Facebook: Lục Hậu</p>
+      </div>
+
+      <!-- GALLERY -->
+      <div class="section">
+        <div class="section-header">Một số ảnh về quá trình học tập</div>
+        <div class="gallery">
+          <img src="anh1.jpg" alt="Ảnh học tập 1">
+          <img src="anh2.jpg" alt="Ảnh học tập 2">
+          <img src="anh3.jpg" alt="Ảnh học tập 3">
+          <img src="anh4.jpg" alt="Ảnh học tập 4">
+        </div>
+      </div>
+
+      <!-- FORM -->
+      <div class="section">
+        <div class="section-header">Xác nhận tham dự & lời chúc</div>
+        <form class="form" id="rsvpForm">
+          <div>
+            <label for="name">Tên của bạn là gì?</label>
+            <input id="name" type="text" placeholder="Nhập tên của bạn" />
+          </div>
+          <div>
+            <label for="wish">Nhập lời chúc của bạn</label>
+            <textarea id="wish" placeholder="Ví dụ: Chúc bạn tốt nghiệp thật rực rỡ!"></textarea>
+          </div>
+          <div>
+            <label for="attend">Bạn có tham dự không?</label>
+            <select id="attend">
+              <option value="">-- Chọn trạng thái --</option>
+              <option value="Sẽ tham dự">Sẽ tham dự</option>
+              <option value="Đang cân nhắc">Đang cân nhắc</option>
+              <option value="Không tham dự">Không tham dự</option>
+            </select>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary" id="sendBtn">GỬI NGAY!</button>
+            <button type="button" class="btn" id="previewBtn">Xem trước lời chúc</button>
+          </div>
+        </form>
+        <div class="preview" id="previewBox">Lời chúc của bạn sẽ hiển thị ở đây</div>
+        <div class="success" id="successBox">Gửi lời chúc thành công! • Thank you!</div>
+      </div>
+
+    </div>
   </div>
 
-  <h1>DƯƠNG VĂN TUYÊN</h1>
-  <div class="info">
-    Lớp: …… | Khóa: ……<br>
-    Trường: ……
-  </div>
+  <script>
+    // Upload ảnh chân dung (không dùng optional chaining để tránh lỗi trình duyệt cũ)
+    (function(){
+      var photoInput = document.getElementById('photoInput');
+      var mainPortrait = document.getElementById('mainPortrait');
+      if(photoInput && mainPortrait){
+        photoInput.addEventListener('change', function(e){
+          var files = e.target.files;
+          if(!files || files.length === 0) return;
+          var file = files[0];
+          var url = URL.createObjectURL(file);
+          mainPortrait.src = url;
+        });
+      }
+    })();
 
-  <div class="quote">
-    “Thanh xuân không phải là khoảng thời gian,<br>
-    mà là nơi ta đã từng cố gắng hết mình.”
-  </div>
+    // Form preview & gửi
+    (function(){
+      var nameEl = document.getElementById('name');
+      var wishEl = document.getElementById('wish');
+      var attendEl = document.getElementById('attend');
+      var previewBox = document.getElementById('previewBox');
+      var successBox = document.getElementById('successBox');
+      var previewBtn = document.getElementById('previewBtn');
+      var sendBtn = document.getElementById('sendBtn');
 
-  <div class="year">KỶ YẾU 2025</div>
+      if(previewBtn){
+        previewBtn.addEventListener('click', function(){
+          var n = (nameEl && nameEl.value) ? nameEl.value.trim() : "";
+          var w = (wishEl && wishEl.value) ? wishEl.value.trim() : "";
+          var a = (attendEl && attendEl.value) ? attendEl.value : "";
 
-  <div class="gallery">
-    <img src="img1.jpg" onclick="openImg(1)">
-    <img src="img2.jpg" onclick="openImg(2)">
-    <img src="img3.jpg" onclick="openImg(3)">
-    <img src="img4.jpg" onclick="openImg(4)">
-  </div>
-</div>
+          if(!n) n = "Ẩn danh";
+          if(!w) w = "(Chưa có lời chúc)";
+          if(!a) a = "(Chưa xác nhận)";
 
-<!-- OVERLAY -->
-<div class="overlay" id="overlay" onclick="closeImg()">
-  <img id="overlayImg">
-  <div class="caption" id="caption"></div>
-</div>
+          if(previewBox){
+            previewBox.innerHTML = "<strong>" + n + "</strong> • <em>" + a + "</em><br/>“" + w + "”";
+          }
+          if(successBox){
+            successBox.style.display = "none";
+          }
+        });
+      }
 
-<!-- MUSIC -->
-<audio id="music" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-  const images = [
-    { src: "avatar.jpg", cap: "Ảnh kỷ yếu chính" },
-    { src: "img1.jpg", cap: "Kỷ niệm 1" },
-    { src: "img2.jpg", cap: "Kỷ niệm 2" },
-    { src: "img3.jpg", cap: "Kỷ niệm 3" },
-    { src: "img4.jpg", cap: "Kỷ niệm 4" }
-  ];
-
-  let index = 0;
-  let startX = 0;
-  let musicStarted = false;
-
-  function openImg(i) {
-    index = i;
-    overlay.style.display = "flex";
-    showImg();
-  }
-
-  function showImg() {
-    overlayImg.src = images[index].src;
-    caption.innerText = images[index].cap;
-  }
-
-  function closeImg() {
-    overlay.style.display = "none";
-  }
-
-  overlay.addEventListener("touchstart", e => {
-    startX = e.touches[0].clientX;
-  });
-
-  overlay.addEventListener("touchend", e => {
-    let endX = e.changedTouches[0].clientX;
-    if (startX - endX > 50 && index < images.length - 1) {
-      index++;
-      showImg();
-    }
-    if (endX - startX > 50 && index > 0) {
-      index--;
-      showImg();
-    }
-  });
-
-  function toggleDark() {
-    document.body.classList.toggle("dark");
-  }
-
-  function toggleMusic() {
-    const m = document.getElementById("music");
-    m.paused ? m.play() : m.pause();
-    musicStarted = true;
-  }
-
-  function playMusicOnce() {
-    if (musicStarted) return;
-    document.getElementById("music").play();
-    musicStarted = true;
-  }
-
-  window.onload = () => {
-    openImg(0);
-    document.body.addEventListener("click", playMusicOnce, { once: true });
-  };
-</script>
-
+      if(sendBtn){
+        sendBtn.addEventListener('click', function(){
+          if(successBox){
+            successBox.style.display = "block";
+            successBox.textContent = "Gửi lời chúc thành công! • Thank you!";
+          }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
